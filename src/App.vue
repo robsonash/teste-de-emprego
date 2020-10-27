@@ -75,7 +75,7 @@
        <button v-on:click="emitiralterar" class="button is-info"  type="button">Atualizar</button>
 
 </div> -->
-       
+      
 
 
 
@@ -85,7 +85,7 @@
     </div>
     <div class="container-dados">
       <div class="dado" v-for="cliente in clientes" :key="cliente.id">
-
+        
         <Cliente :cliente="cliente" @alterar="atualizarusuario($event)"  @delete="deletarusuario($event)" />
       </div>
     </div>
@@ -108,7 +108,7 @@ export default {
       cnpj: "",
       id: "",
       clientes: [],
-      estadoform: "cadastrar",
+      estadoform: "cadastrar"
     };
   },
   components: {
@@ -135,12 +135,16 @@ export default {
     estado:function(){
      if(this.estadoform == "cadastrar"){
       this.adicionar()
-     }else{
-       this.atualizarusuario();
-       this.estadoform == "cadastrar";
      }
 
 
+    },
+    limparcampos:function(){
+    this.nome = "",
+      this.sobrenome = "",
+        this.email = "",
+        this.telefone = ""
+       
     },
     adicionar: function () {
       this.clientes.push({
@@ -150,13 +154,14 @@ export default {
         telefone: this.telefone,
         id: Date.now(),
       });
-        (this.nome = ""),
-        (this.sobrenome = ""),
-        (this.email = ""),
-        (this.telefone = ""),
-        console.log(this.clientes);
+      this.limparcampos();
+   
+    },
+    updateusuario:function(){
+      
     },
     atualizarusuario: function($event){
+     this.estadoform = "atualizar";
          var id = $event.idcliente;
          console.log("id" + id );
          this.nome =  $event.nome
@@ -164,7 +169,7 @@ export default {
          this.email =  $event.email
          this.telefone =  $event.telefone
             console.log($event);
-      
+        console.log("estado" + this.estadoform)
         console.log(this.clientes);
     },
 
@@ -174,8 +179,6 @@ export default {
       this.clientes = listanova;
     },
   },
-
-  computed: {},
 };
 </script>
 

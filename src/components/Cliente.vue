@@ -1,17 +1,37 @@
 <template>
 
+<div class="table-container">
+<table class="table">
+<thead><tr>
+  <th>Nome Completo</th>
+    <th>Email</th>
+    </tr>
+</thead>
+<tr>
+<td>{{ajuntarnome}}</td>
+<td>{{cliente.email}}</td>
+<td> <button v-on:click="emitiralterar" class="button is-warning"  type="button">Editar</button></td>
+<td><button v-on:click="emitirdelete"  class="button is-danger" type="button">Excluir</button></td>
+</tr>
 
-<div>
-  <strong>Id: </strong> {{cliente.id}}
+
+
+
+  <!-- <strong>Id: </strong> {{cliente.id}}
   <strong>Nome: </strong> {{cliente.nome}}
   <strong>Sobrenome:</strong>{{cliente.sobrenome}}
   <strong>Email:</strong>{{cliente.email}}
   <strong> Telefone:</strong>{{cliente.telefone}}
   <div class="buttons">
   <button v-on:click="emitiralterar" class="button is-warning"  type="button">Editar</button>
- <button v-on:click="emitirdelete"  class="button is-danger" type="button">Excluir</button>
-</div>
-</div>
+ <button v-on:click="emitirdelete"  class="button is-danger" type="button">Excluir</button> -->
+
+</table>
+</div> 
+
+
+
+
 
 
 </template>
@@ -44,7 +64,9 @@ export default {
     }, 
 
     computed:{
-
+ ajuntarnome:function(){
+      return  this.cliente.nome + " " + this.cliente.sobrenome;
+    }
     }
 }
     </script>
