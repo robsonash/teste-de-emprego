@@ -46,9 +46,9 @@
         </div>
 
         <div v-if="checado">
-          <label :for="checado"></label>
+          <label for="cnpj"></label>
           <input
-            v-model="cnpj"
+            v-model="razaoSocial"
             type="text"
             id="cnpj"
             name="cnpj"
@@ -59,7 +59,7 @@
         <div v-else>
           <label for="cpf">cpf</label>
           <input
-            v-model="cpf"
+            v-model="razaoSocial"
             type="text"
             id="checado"
             name="checado"
@@ -67,26 +67,26 @@
           />
         </div>
 
-  
-          <input v-on:click="estado" type="submit" value="Submit" />
-     
-      
-       <!-- <div else class="buttons">
+        <input
+          :style="{ backgroundColor: this.updatecolor }"
+          v-on:click="estado"
+          type="submit"
+          value="Submit"
+        />
+
+        <!-- <div else class="buttons">
        <button v-on:click="emitiralterar" class="button is-info"  type="button">Atualizar</button>
 
 </div> -->
-      
-
-
-
-
-
       </form>
     </div>
     <div class="container-dados">
       <div class="dado" v-for="cliente in clientes" :key="cliente.id">
-        
-        <Cliente :cliente="cliente" @alterar="atualizarusuario($event)"  @delete="deletarusuario($event)" />
+        <Cliente
+          :cliente="cliente"
+          @alterar="atualizarusuario($event)"
+          @delete="deletarusuario($event)"
+        />
       </div>
     </div>
   </div>
@@ -104,47 +104,37 @@ export default {
       telefone: "",
       razaoSocial: "",
       checado: false,
-      cpf: "",
-      cnpj: "",
       id: "",
       clientes: [],
-      estadoform: "cadastrar"
+      estadoform: "cadastrar",
+      updatecolor: "",
     };
   },
   components: {
     Cliente,
   },
-  //     watch:{
-  //    checadow:function(){
-
-  //      if(this.checado){
-
-  //       this.razaoSocial = this.cnpj;
-  //      // this.cpf = ''
-  //  console.log(this.razaoSocial);
-
-  //      }else{
-  //             this.razaoSocial = this.cpf;
-  //             //this.checado = false;
-  //             // this.cnpj = ''
-  //              console.log( this.razaoSocial);
-  //        }
-  //    }
-  //     },
-  methods: {
-    estado:function(){
-     if(this.estadoform == "cadastrar"){
-      this.adicionar()
-     }
-
-
+  watch: {
+    checado: function () {
+      if (this.checado) {
+        this.razaoSocial = "";
+      } else {
+        this.razaoSocial = "";
+      }
     },
-    limparcampos:function(){
-    this.nome = "",
-      this.sobrenome = "",
-        this.email = "",
-        this.telefone = ""
-       
+  },
+  methods: {
+    estado: function () {
+      if (this.estadoform == "cadastrar") {
+        this.adicionar();
+      } else {
+        this.updateusuario();
+      }
+    },
+    limparcampos: function () {
+      (this.nome = ""),
+        (this.sobrenome = ""),
+        (this.email = ""),
+        (this.telefone = "");
     },
     adicionar: function () {
       this.clientes.push({
@@ -155,22 +145,51 @@ export default {
         id: Date.now(),
       });
       this.limparcampos();
-   
     },
-    updateusuario:function(){
-      
+
+
+
+
+
+
+    updateusuario: function () {
+      this.updatecolor = "";
+
+      for (let i = 0; i < this.clientes.length; i++) {
+        if (this.clientes[i].id === this.id) {
+       
+            this.clientes[i].nome = this.nome,
+            this.clientes[i].sobrenome = this.sobrenome,
+            this.clientes[i].email = this.email,
+            this.clientes[i].telefone = this.telefone,
+            this.clientes[i].id = Date.now()
+            this.estadoform = "cadastrar";
+        } else {
+          console.log("nao atualizou");
+        }
+      }
+
+      this.limparcampos();
     },
-    atualizarusuario: function($event){
-     this.estadoform = "atualizar";
-         var id = $event.idcliente;
-         console.log("id" + id );
-         this.nome =  $event.nome
-         this.sobrenome =  $event.sobrenome
-         this.email =  $event.email
-         this.telefone =  $event.telefone
-            console.log($event);
-        console.log("estado" + this.estadoform)
-        console.log(this.clientes);
+
+
+
+
+
+
+
+
+    atualizarusuario: function ($event) {
+      this.updatecolor = "#bcbc5f!important";
+      this.estadoform = "atualizar";
+      this.id = $event.idcliente;
+      this.nome = $event.nome;
+      this.sobrenome = $event.sobrenome;
+      this.email = $event.email;
+      this.telefone = $event.telefone;
+      console.log($event);
+      console.log("estado" + this.estadoform);
+      console.log(this.clientes);
     },
 
     deletarusuario: function ($event) {
